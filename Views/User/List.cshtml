@@ -1,0 +1,45 @@
+﻿@model List<Person>
+@{
+	ViewData["Title"] = "List Users";
+}
+
+<form asp-controller="User" asp-action="Filter" method="get">
+	Search: <input type="text" name="key">
+	<br/>
+	<br/>
+</form>
+
+@if (Model.Count == 0)
+{
+	<h3>There are no matches.</h3>
+}
+else
+{
+	<table>
+		<tr class="even_row">
+			<th>Name</th>
+			<th>Job Title</th>
+			<th>Years of Experience</th>
+		</tr>
+
+		@{
+			var row = 1; @* first row (odd) will not be highlighted *@
+
+			foreach (var person in Model)
+			{
+			@* only even rows will be highlighted by adding the 'even_row' class *@
+				var rowColor = (row % 2 == 0) ? "class=even_row" : "";
+
+			@* displays the particulars of a user in a table row *@
+				<tr @rowColor>
+					<td>@person.FirstName @person.LastName</td>
+					<td>@person.JobTitle</td>
+					<td>@person.YearsExperience</td>
+				</tr>
+
+			@* increment to know if next one is an odd or even row *@
+				row += 1;
+			}
+		}
+	</table>
+}
